@@ -6,12 +6,10 @@ import (
 	"github.com/labstack/echo"
 )
 
-type (
-	// Response ...
-	Response struct {
-		Message string
-	}
-)
+// Response ...
+type Response struct {
+	Message string
+}
 
 // HelloHandler ...
 func HelloHandler(c echo.Context) error {
