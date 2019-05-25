@@ -4,6 +4,8 @@
 
 CREATE TABLE users(
     user_id SERIAL,
+    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     name varchar(20),
     email varchar(20)
 );

@@ -29,6 +29,8 @@ func getUser(db *sqlx.DB, userID int) (*model.User, error) {
 	q := `
 	SELECT
 		user_id,
+		created,
+		updated,
 		user_name,
 		COALESCE(name, "") AS name,
 		COALESCE(email, "") AS email,
@@ -57,6 +59,8 @@ func selectAllUsers(db *sqlx.DB) ([]*model.User, error) {
 	q := `
 	SELECT
 		user_id,
+		created,
+		updated,
 		user_name,
 		COALESCE(name, "") AS name,
 		COALESCE(email, "") AS email,
