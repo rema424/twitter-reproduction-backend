@@ -34,7 +34,7 @@ login:
 # ローカルサーバーの起動
 # e.g.) make dev
 dev:
-	dev_appserver.py module/twitter/main/app.yaml --support_datastore_emulator=False --go_debugging=True
+	dev_appserver.py module/twitter/main/app.yaml --support_datastore_emulator=False --go_debugging=True --env_var DSN=$$DSN
 
 # デバッガーのアタッチ
 # e.g.) make debug

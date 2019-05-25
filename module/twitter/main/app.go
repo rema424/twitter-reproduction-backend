@@ -1,7 +1,5 @@
 package main
 
-import "github.com/rema424/twitter-reproduction-backend/database"
-
 var e = createMux()
 
 func init() {
@@ -21,7 +19,7 @@ func init() {
 	// articleHandler := InitializeArticleHandler(db)
 
 	// DIコンテナ版 (ファクトリ)
-	db := database.NewDatabase()
+	db := InitDB()
 	handlers := InitializeHandlers(db)
 
 	// --------
@@ -30,5 +28,5 @@ func init() {
 
 	// e.GET("/", handler.HelloHandler)
 	// e.GET("/:message", handler.ParrotHandler)
-	e.GET("/articles/:id", handlers.Article().Show)
+	e.GET("/users/:id", handlers.User().Show)
 }

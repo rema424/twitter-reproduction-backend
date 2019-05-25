@@ -1,23 +1,19 @@
 package handler
 
-type (
-	// Factory ...
-	Factory interface {
-		Article() ArticleHandler
-	}
-
-	factoryImpl struct {
-		articleHandler ArticleHandler
-	}
-)
-
-// NewFactory ...
-func NewFactory(articleHandler ArticleHandler) Factory {
-	return &factoryImpl{
-		articleHandler: articleHandler,
-	}
+// Factory ...
+type Factory interface {
+	User() UserHandler
 }
 
-func (f *factoryImpl) Article() ArticleHandler {
-	return f.articleHandler
+type factory struct {
+	userHandler UserHandler
+}
+
+// NewFactory ...
+func NewFactory(userHandler UserHandler) Factory {
+	return &factory{userHandler}
+}
+
+func (f *factory) User() UserHandler {
+	return f.userHandler
 }
