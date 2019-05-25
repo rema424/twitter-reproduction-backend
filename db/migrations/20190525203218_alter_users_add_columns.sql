@@ -2,8 +2,9 @@
 -- +goose Up
 -- SQL in section 'Up' is executed when this migration is applied
 
+ALTER TABLE users ADD user_name VARCHAR(20) UNIQUE AFTER user_id;
+
 ALTER TABLE users ADD (
-    user_name VARCHAR(20) UNIQUE,
     icon VARCHAR(255),
     header_image VARCHAR(255),
     profile VARCHAR(150),
