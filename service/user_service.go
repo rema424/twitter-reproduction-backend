@@ -8,6 +8,7 @@ import (
 // UserService ...
 type UserService interface {
 	Get(userID int) (*model.User, error)
+	SelectAll() ([]*model.User, error)
 }
 
 type userService struct {
@@ -22,4 +23,9 @@ func NewUserService(userRepository repository.UserRepository) UserService {
 // Get ...
 func (s *userService) Get(userID int) (*model.User, error) {
 	return s.userRepository.Get(userID)
+}
+
+// SelectAll ...
+func (s *userService) SelectAll() ([]*model.User, error) {
+	return s.userRepository.SelectAll()
 }

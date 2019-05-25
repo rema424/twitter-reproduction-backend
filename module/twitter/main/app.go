@@ -28,5 +28,6 @@ func init() {
 
 	// e.GET("/", handler.HelloHandler)
 	// e.GET("/:message", handler.ParrotHandler)
+	e.GET("/users", handlers.User().Index)
 	e.GET("/users/:id", handlers.User().Show)
 }

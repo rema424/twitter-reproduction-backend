@@ -11,6 +11,7 @@ import (
 
 // UserHandler ...
 type UserHandler interface {
+	Index(c echo.Context) error
 	Show(c echo.Context) error
 }
 
@@ -21,6 +22,17 @@ type userHandler struct {
 // NewUserHandler ...
 func NewUserHandler(userService service.UserService) UserHandler {
 	return &userHandler{userService}
+}
+
+func (h *userHandler) Index(c echo.Context) error {
+	us, err := h.userService.SelectAll()
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return c.JSON(http.StatusOK, "データが見つかりませんでした。")
+		}
+		return c.JSON(http.StatusOK, "予期せぬエラーが発生しました。")
+	}
+	return c.JSONPretty(http.StatusOK, us, "  ")
 }
 
 func (h *userHandler) Show(c echo.Context) error {
