@@ -1,11 +1,6 @@
 package main
 
-import (
-	"github.com/rema424/go-gae-blog-app-example/database"
-	// "github.com/rema424/go-gae-blog-app-example/module/blog/handler"
-	// "github.com/rema424/go-gae-blog-app-example/repository"
-	// "github.com/rema424/go-gae-blog-app-example/service"
-)
+import "github.com/rema424/twitter-reproduction-backend/database"
 
 var e = createMux()
 

@@ -6,10 +6,10 @@
 package main
 
 import (
-	"github.com/rema424/go-gae-blog-app-example/database"
-	"github.com/rema424/go-gae-blog-app-example/module/blog/handler"
-	"github.com/rema424/go-gae-blog-app-example/repository"
-	"github.com/rema424/go-gae-blog-app-example/service"
+	"github.com/rema424/twitter-reproduction-backend/database"
+	"github.com/rema424/twitter-reproduction-backend/module/twitter/handler"
+	"github.com/rema424/twitter-reproduction-backend/repository"
+	"github.com/rema424/twitter-reproduction-backend/service"
 )
 
 // Injectors from wire.go:

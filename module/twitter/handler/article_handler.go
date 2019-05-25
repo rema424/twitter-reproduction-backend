@@ -5,8 +5,7 @@ import (
 	"strconv"
 
 	"github.com/labstack/echo"
-
-	"github.com/rema424/go-gae-blog-app-example/service"
+	"github.com/rema424/twitter-reproduction-backend/service"
 )
 
 type (

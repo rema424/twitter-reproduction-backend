@@ -58,6 +58,20 @@
   version = "v0.0.7"
 
 [[projects]]
+  branch = "master"
+  digest = "1:8459d43b48ae9f3db29f6fb98a1adfb9ee1d852a3f1ffddef1a27f6c88db6666"
+  name = "github.com/rema424/go-gae-blog-app-example"
+  packages = [
+    "database",
+    "model",
+    "module/blog/handler",
+    "repository",
+    "service",
+  ]
+  pruneopts = "UT"
+  revision = "d7974d2ee2486d009c37bfb3d9bd7714edf5ad75"
+
+[[projects]]
   digest = "1:c468422f334a6b46a19448ad59aaffdfc0a36b08fdcc1c749a0b29b6453d7e59"
   name = "github.com/valyala/bytebufferpool"
   packages = ["."]
@@ -99,6 +113,10 @@
     "github.com/google/wire",
     "github.com/labstack/echo",
     "github.com/labstack/echo/middleware",
+    "github.com/rema424/go-gae-blog-app-example/database",
+    "github.com/rema424/go-gae-blog-app-example/module/blog/handler",
+    "github.com/rema424/go-gae-blog-app-example/repository",
+    "github.com/rema424/go-gae-blog-app-example/service",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

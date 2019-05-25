@@ -1,8 +1,6 @@
 package database
 
-import (
-	"github.com/rema424/go-gae-blog-app-example/model"
-)
+import "github.com/rema424/twitter-reproduction-backend/model"
 
 type (
 	// DB ...
