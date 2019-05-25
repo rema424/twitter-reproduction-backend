@@ -30,14 +30,14 @@ func getUser(db *sqlx.DB, userID int) (*model.User, error) {
 	SELECT
 		user_id,
 		user_name,
-		name,
-		email,
-		icon,
-		header_image,
-		profile,
-		birthday,
-		place,
-		url
+		COALESCE(name, "") AS name,
+		COALESCE(email, "") AS email,
+		COALESCE(icon, "") AS icon,
+		COALESCE(header_image, "") AS header_image,
+		COALESCE(profile, "") AS profile,
+		COALESCE(birthday, "") AS birthday,
+		COALESCE(place, "") AS place,
+		COALESCE(url, "") AS url
 	FROM users
 	WHERE user_id = ?;
 	`
@@ -54,7 +54,20 @@ func (r *userRepository) SelectAll() ([]*model.User, error) {
 }
 
 func selectAllUsers(db *sqlx.DB) ([]*model.User, error) {
-	q := `SELECT * FROM users;`
+	q := `
+	SELECT
+		user_id,
+		user_name,
+		COALESCE(name, "") AS name,
+		COALESCE(email, "") AS email,
+		COALESCE(icon, "") AS icon,
+		COALESCE(header_image, "") AS header_image,
+		COALESCE(profile, "") AS profile,
+		COALESCE(birthday, "") AS birthday,
+		COALESCE(place, "") AS place,
+		COALESCE(url, "") AS url
+	FROM users;
+	`
 	var us []*model.User
 	if err := db.Select(&us, q); err != nil {
 		return nil, err
