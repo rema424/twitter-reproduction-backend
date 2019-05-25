@@ -23,6 +23,8 @@ UPDATE users SET user_name = 'grace' WHERE name = 'Grace' AND email = 'grace@exa
 UPDATE users SET user_name = 'heidi' WHERE name = 'Heidi' AND email = 'heidi@example.com';
 UPDATE users SET user_name = 'ivan' WHERE name = 'Ivan' AND email = 'ivan@example.com';
 
+ALTER TABLE users MODIFY user_name VARCHAR(20) NOT NULL;
+
 -- +goose Down
 -- SQL section 'Down' is executed when this migration is rolled back
 

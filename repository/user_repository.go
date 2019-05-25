@@ -26,7 +26,21 @@ func (r *userRepository) Get(userID int) (*model.User, error) {
 }
 
 func getUser(db *sqlx.DB, userID int) (*model.User, error) {
-	q := `SELECT * FROM users WHERE user_id = ?;`
+	q := `
+	SELECT
+		user_id,
+		user_name,
+		name,
+		email,
+		icon,
+		header_image,
+		profile,
+		birthday,
+		place,
+		url
+	FROM users
+	WHERE user_id = ?;
+	`
 	var u model.User
 	if err := db.Get(&u, q, userID); err != nil {
 		return nil, err
