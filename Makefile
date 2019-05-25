@@ -18,6 +18,14 @@ OAUTH2_ACCESS_TOKEN=$$(gcloud auth print-access-token 2> /dev/null)
 wire:
 	cd module/twitter/main; wire;
 
+# DB コンテナの起動
+dbup:
+	docker-compose up -d db
+
+# DB コンテナの破棄
+dbdown:
+	docker-compose down
+
 # 認証
 # e.g.) make login
 login:
