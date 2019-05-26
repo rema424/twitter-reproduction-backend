@@ -6,7 +6,7 @@
 package main
 
 import (
-	"github.com/jmoiron/sqlx"
+	"github.com/rema424/twitter-reproduction-backend/lib/db"
 	"github.com/rema424/twitter-reproduction-backend/module/twitter/handler"
 	"github.com/rema424/twitter-reproduction-backend/repository"
 	"github.com/rema424/twitter-reproduction-backend/service"
@@ -18,8 +18,8 @@ import (
 
 // Injectors from wire.go:
 
-func InitializeHandlers(db *sqlx.DB) handler.Factory {
-	userRepository := repository.NewUserRepository(db)
+func InitializeHandlers(db2 *db.DB) handler.Factory {
+	userRepository := repository.NewUserRepository(db2)
 	userService := service.NewUserService(userRepository)
 	userHandler := handler.NewUserHandler(userService)
 	factory := handler.NewFactory(userHandler)

@@ -6,10 +6,11 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
+	mydb "github.com/rema424/twitter-reproduction-backend/lib/db"
 )
 
 // InitDB ...
-func InitDB() *sqlx.DB {
+func InitDB() *mydb.DB {
 	db, err := sqlx.Open("mysql", os.Getenv("DSN"))
 	if err != nil {
 		log.Fatal(err)
@@ -19,5 +20,5 @@ func InitDB() *sqlx.DB {
 		log.Fatal(err)
 	}
 
-	return db
+	return &mydb.DB{db}
 }
