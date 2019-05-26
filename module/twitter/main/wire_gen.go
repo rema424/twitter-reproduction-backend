@@ -12,13 +12,9 @@ import (
 	"github.com/rema424/twitter-reproduction-backend/service"
 )
 
-import (
-	_ "github.com/go-sql-driver/mysql"
-)
-
 // Injectors from wire.go:
 
-func InitializeHandlers(db2 *db.DB) handler.Factory {
+func InitializeHandlers(db2 db.DB) handler.Factory {
 	userRepository := repository.NewUserRepository(db2)
 	userService := service.NewUserService(userRepository)
 	userHandler := handler.NewUserHandler(userService)

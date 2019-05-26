@@ -12,11 +12,11 @@ type UserRepository interface {
 }
 
 type userRepository struct {
-	db *db.DB
+	db db.DB
 }
 
 // NewUserRepository ...
-func NewUserRepository(db *db.DB) UserRepository {
+func NewUserRepository(db db.DB) UserRepository {
 	return &userRepository{db}
 }
 
@@ -25,7 +25,7 @@ func (r *userRepository) Get(userID int) (*model.User, error) {
 	return getUser(r.db, userID)
 }
 
-func getUser(db *db.DB, userID int) (*model.User, error) {
+func getUser(db db.DB, userID int) (*model.User, error) {
 	q := `
 	SELECT
 		user_id,
@@ -55,7 +55,7 @@ func (r *userRepository) SelectAll() ([]*model.User, error) {
 	return selectAllUsers(r.db)
 }
 
-func selectAllUsers(db *db.DB) ([]*model.User, error) {
+func selectAllUsers(db db.DB) ([]*model.User, error) {
 	q := `
 	SELECT
 		user_id,
