@@ -18,6 +18,14 @@
   version = "v1.4.1"
 
 [[projects]]
+  digest = "1:318f1c959a8a740366fce4b1e1eb2fd914036b4af58fbd0a003349b305f118ad"
+  name = "github.com/golang/protobuf"
+  packages = ["proto"]
+  pruneopts = "UT"
+  revision = "b5d812f8a3706043e23a9cd5babf2e5423744d30"
+  version = "v1.3.1"
+
+[[projects]]
   digest = "1:3c4df6e0ec96b9dec76f15e0bcad888fa268ee6404d1cdcaf90d7567e32a8f73"
   name = "github.com/google/wire"
   packages = ["."]
@@ -105,6 +113,22 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:76ee51c3f468493aff39dbacc401e8831fbb765104cbf613b89bef01cf4bad70"
+  name = "golang.org/x/net"
+  packages = ["context"]
+  pruneopts = "UT"
+  revision = "461777fb6f67e8cb9d70cda16573678d085a74cf"
+
+[[projects]]
+  branch = "master"
+  digest = "1:b521f10a2d8fa85c04a8ef4e62f2d1e14d303599a55d64dabf9f5a02f84d35eb"
+  name = "golang.org/x/sync"
+  packages = ["errgroup"]
+  pruneopts = "UT"
+  revision = "112230192c580c3556b8cee6403af37a4fc5f28c"
+
+[[projects]]
+  branch = "master"
   digest = "1:5637b3b43405643229e55140bb3049dfa7d73957ba9ecfccc31cdadbfbe0b1f9"
   name = "golang.org/x/sys"
   packages = ["unix"]
@@ -112,9 +136,20 @@
   revision = "f49334f85ddcf0f08d7fb6dd7363e9e6d6b777eb"
 
 [[projects]]
-  digest = "1:c25289f43ac4a68d88b02245742347c94f1e108c534dda442188015ff80669b3"
+  digest = "1:24f24bf86505b8c57bc3bcfba4ec9585a5209df11707e06369af017b417dda9a"
   name = "google.golang.org/appengine"
-  packages = ["cloudsql"]
+  packages = [
+    ".",
+    "cloudsql",
+    "internal",
+    "internal/app_identity",
+    "internal/base",
+    "internal/datastore",
+    "internal/log",
+    "internal/modules",
+    "internal/remote_api",
+    "log",
+  ]
   pruneopts = "UT"
   revision = "4c25cacc810c02874000e4f7071286a8e96b2515"
   version = "v1.6.0"
@@ -128,6 +163,9 @@
     "github.com/jmoiron/sqlx",
     "github.com/labstack/echo",
     "github.com/labstack/echo/middleware",
+    "golang.org/x/sync/errgroup",
+    "google.golang.org/appengine",
+    "google.golang.org/appengine/log",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
