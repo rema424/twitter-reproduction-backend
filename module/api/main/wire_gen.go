@@ -7,7 +7,7 @@ package main
 
 import (
 	"github.com/rema424/twitter-reproduction-backend/lib/db"
-	"github.com/rema424/twitter-reproduction-backend/module/twitter/handler"
+	"github.com/rema424/twitter-reproduction-backend/module/api/handler"
 	"github.com/rema424/twitter-reproduction-backend/repository"
 	"github.com/rema424/twitter-reproduction-backend/service"
 )

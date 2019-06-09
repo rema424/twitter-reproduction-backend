@@ -53,16 +53,18 @@ func (h *userHandler) Show(c echo.Context) error {
 	// }
 
 	eg, ctx := errgroup.WithContext(getContext(c))
-
 	var u1, u2, u3 *model.User
+
 	eg.Go(func() (err error) {
 		u1, err = h.userService.Get(11)
 		return
 	})
+
 	eg.Go(func() (err error) {
 		u2, err = h.userService.Get(2)
 		return
 	})
+
 	eg.Go(func() (err error) {
 		u3, err = h.userService.Get(3)
 		return

@@ -16,7 +16,8 @@ OAUTH2_ACCESS_TOKEN=$$(gcloud auth print-access-token 2> /dev/null)
 # DI
 # e.g.) make wire
 wire:
-	cd module/twitter/main; wire;
+	cd module/api/main; wire;
+	cd module/html/main; wire;
 
 # DB コンテナの起動
 dbup:
@@ -33,8 +34,11 @@ login:
 
 # ローカルサーバーの起動
 # e.g.) make dev
-dev:
-	dev_appserver.py module/twitter/main/app.yaml --support_datastore_emulator=False --go_debugging=True --env_var DSN=$$DSN
+dev-api:
+	dev_appserver.py module/api/main/app.yaml --support_datastore_emulator=False --go_debugging=True --env_var DSN=$$DSN
+
+dev-html:
+	dev_appserver.py module/html/main/app.yaml --support_datastore_emulator=False --go_debugging=True --env_var DSN=$$DSN
 
 # デバッガーのアタッチ
 # e.g.) make debug
@@ -44,17 +48,17 @@ debug:
 # デプロイ
 # e.g.) make update version=1
 update:
-	appcfg.py update -A ${project_id} -V ${version} --oauth2_access_token=${OAUTH2_ACCESS_TOKEN} module/twitter/main
+	appcfg.py update -A ${project_id} -V ${version} --oauth2_access_token=${OAUTH2_ACCESS_TOKEN} module/api/main
 
 # トラフィックを徐々に切り替える (500が発生しない 基本的にはこっち)
 # e.g) make migrate version=1
 migrate:
-	appcfg.py migrate_traffic -A ${project_id} -V ${version} --oauth2_access_token=${OAUTH2_ACCESS_TOKEN} module/twitter/main
+	appcfg.py migrate_traffic -A ${project_id} -V ${version} --oauth2_access_token=${OAUTH2_ACCESS_TOKEN} module/api/main
 
 # トラフィックを一瞬で切り替える (一瞬500が発生する)
 # e.g) make set version=1
 set:
-	appcfg.py set_default_version -A ${project_id} -V ${version} --oauth2_access_token=${OAUTH2_ACCESS_TOKEN} module/twitter/main
+	appcfg.py set_default_version -A ${project_id} -V ${version} --oauth2_access_token=${OAUTH2_ACCESS_TOKEN} module/api/main
 
 # e.g) make open version=1
 open:
