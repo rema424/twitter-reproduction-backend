@@ -44,7 +44,10 @@ func NewDB() *DB {
 type Session struct {
 	// dbutil.DB インタフェースを満たした dbutil.db をコンポジットする。
 	db
-	context context.Context
+	context     context.Context
+	warningTime time.Duration
+	warningRows int
+	secretArgs  bool
 }
 
 // NewSession ...
@@ -54,8 +57,10 @@ func (db *DB) NewSession(ctx context.Context) *Session {
 	}
 
 	return &Session{
-		db:      db.DB,
-		context: ctx,
+		db:          db.DB,
+		context:     ctx,
+		warningTime: time.Duration(150) * time.Millisecond,
+		warningRows: 500,
 	}
 }
 
@@ -68,7 +73,14 @@ func (s *Session) check() {
 // Get ...
 func (s *Session) Get(dest interface{}, query string, args ...interface{}) error {
 	s.check()
-	return s.db.Get(dest, query, args...)
+	start := time.Now()
+	err := s.db.Get(dest, query, args...)
+	var rows int
+	if err == nil {
+		rows = 1
+	}
+	s.log(query, args, rows, start, err)
+	return err
 }
 
 // Select ...
