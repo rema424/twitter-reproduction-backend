@@ -5,13 +5,13 @@ package main
 import (
 	"github.com/google/wire"
 
-	"github.com/rema424/twitter-reproduction-backend/lib/db"
+	"github.com/rema424/twitter-reproduction-backend/lib/dbutil"
 	"github.com/rema424/twitter-reproduction-backend/module/html/handler"
 	"github.com/rema424/twitter-reproduction-backend/repository"
 	"github.com/rema424/twitter-reproduction-backend/service"
 )
 
-func InitializeHandlers(db db.DB) handler.Factory {
+func InitializeHandlers(db dbutil.DB) handler.Factory {
 	wire.Build(
 		repository.NewUserRepository,
 		service.NewUserService,

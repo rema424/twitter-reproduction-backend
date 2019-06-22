@@ -6,7 +6,7 @@
 package main
 
 import (
-	"github.com/rema424/twitter-reproduction-backend/lib/db"
+	"github.com/rema424/twitter-reproduction-backend/lib/dbutil"
 	"github.com/rema424/twitter-reproduction-backend/module/api/handler"
 	"github.com/rema424/twitter-reproduction-backend/repository"
 	"github.com/rema424/twitter-reproduction-backend/service"
@@ -14,8 +14,8 @@ import (
 
 // Injectors from wire.go:
 
-func InitializeHandlers(db2 db.DB) handler.Factory {
-	userRepository := repository.NewUserRepository(db2)
+func InitializeHandlers(db dbutil.DB) handler.Factory {
+	userRepository := repository.NewUserRepository(db)
 	userService := service.NewUserService(userRepository)
 	userHandler := handler.NewUserHandler(userService)
 	factory := handler.NewFactory(userHandler)

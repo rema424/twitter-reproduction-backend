@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/labstack/echo/middleware"
-	"github.com/rema424/twitter-reproduction-backend/lib/db"
+	"github.com/rema424/twitter-reproduction-backend/lib/dbutil"
 	"github.com/rema424/twitter-reproduction-backend/module/api/handler"
 )
 
@@ -13,7 +13,7 @@ func init() {
 
 	// DB の接続は main パッケージで行うことが多いが、
 	// AppEngine で複数モジュールが定義されるケースに備えて lib に逃す。
-	db := db.NewDB()
+	db := dbutil.NewDB()
 	handlers := InitializeHandlers(db)
 
 	e.GET("/", handler.HelloHandler)

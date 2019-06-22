@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/rema424/twitter-reproduction-backend/lib/db"
+	"github.com/rema424/twitter-reproduction-backend/lib/dbutil"
 	"github.com/rema424/twitter-reproduction-backend/model"
 )
 
@@ -12,11 +12,11 @@ type UserRepository interface {
 }
 
 type userRepository struct {
-	db db.DB
+	db dbutil.DB
 }
 
 // NewUserRepository ...
-func NewUserRepository(db db.DB) UserRepository {
+func NewUserRepository(db dbutil.DB) UserRepository {
 	return &userRepository{db}
 }
 
@@ -25,7 +25,7 @@ func (r *userRepository) Get(userID int) (*model.User, error) {
 	return getUser(r.db, userID)
 }
 
-func getUser(db db.DB, userID int) (*model.User, error) {
+func getUser(db dbutil.DB, userID int) (*model.User, error) {
 	q := `
 	SELECT
 		user_id,
@@ -55,7 +55,7 @@ func (r *userRepository) SelectAll() ([]*model.User, error) {
 	return selectAllUsers(r.db)
 }
 
-func selectAllUsers(db db.DB) ([]*model.User, error) {
+func selectAllUsers(db dbutil.DB) ([]*model.User, error) {
 	q := `
 	SELECT
 		user_id,
