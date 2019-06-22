@@ -40,6 +40,10 @@ dev-api:
 dev-html:
 	dev_appserver.py module/html/main/app.yaml --support_datastore_emulator=False --go_debugging=True --env_var DSN=$$DSN
 
+# 静的リソースのビルド
+build-html:
+	set -eu; cd module/html/main; gulp build;
+
 # デバッガーのアタッチ
 # e.g.) make debug
 debug:

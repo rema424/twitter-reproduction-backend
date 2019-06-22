@@ -23,7 +23,7 @@ func HelloHandler(c echo.Context) error {
 
 	// return c.JSON(http.StatusOK, res)
 
-	data := map[string]interface{}{"Data": message}
+	data := map[string]interface{}{"Message": message, "Number": 2364821976}
 
 	// b, err := tmplutil.HTMLBlob("example.html", data)
 	// if err != nil {

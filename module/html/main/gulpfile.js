@@ -42,7 +42,7 @@ function minifyHTML() {
         removeStyleLinkTypeAttributes: true,
         sortAttributes: true,
         sortClassName: true,
-        trimCustomFragments: true,
+        // trimCustomFragments: true,
         useShortDoctype: true
       })
     )
