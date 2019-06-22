@@ -3,8 +3,6 @@ package handler
 import (
 	"net/http"
 
-	"github.com/rema424/twitter-reproduction-backend/lib/echoutil"
-
 	"github.com/labstack/echo"
 )
 
@@ -37,7 +35,10 @@ func HelloHandler(c echo.Context) error {
 	// }
 	// return c.HTML(http.StatusOK, s)
 
-	return echoutil.Render(c, "example.html", data)
+	// return renderer.Render502(c, data)
+	// return renderer.HTML(c, http.StatusOK, "example.html", data)
+	return renderer.HTML(c, http.StatusOK, "", data)
+	// return echoutil.Render200(c, "example.com", data)
 }
 
 // ParrotHandler ...
