@@ -11,7 +11,7 @@ import (
 	"github.com/rema424/twitter-reproduction-backend/service"
 )
 
-func InitializeHandlers(db dbutil.DB) handler.Factory {
+func InitializeHandlers(db *dbutil.DB) handler.Factory {
 	wire.Build(
 		repository.NewUserRepository,
 		service.NewUserService,

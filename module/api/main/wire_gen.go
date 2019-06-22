@@ -14,7 +14,7 @@ import (
 
 // Injectors from wire.go:
 
-func InitializeHandlers(db dbutil.DB) handler.Factory {
+func InitializeHandlers(db *dbutil.DB) handler.Factory {
 	userRepository := repository.NewUserRepository(db)
 	userService := service.NewUserService(userRepository)
 	userHandler := handler.NewUserHandler(userService)

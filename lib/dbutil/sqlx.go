@@ -1,6 +1,7 @@
 package dbutil
 
 import (
+	"context"
 	"log"
 	"os"
 	"time"
@@ -10,12 +11,19 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-type db struct {
-	sqlx *sqlx.DB
+// db ...
+type db interface {
+	Get(dest interface{}, query string, args ...interface{}) error
+	Select(dest interface{}, query string, args ...interface{}) error
+}
+
+// DB ...
+type DB struct {
+	*sqlx.DB
 }
 
 // NewDB ...
-func NewDB() DB {
+func NewDB() *DB {
 	conn, err := sqlx.Open("mysql", os.Getenv("DSN"))
 	if err != nil {
 		log.Fatal(err)
@@ -29,15 +37,42 @@ func NewDB() DB {
 	conn.SetMaxIdleConns(30)
 	conn.SetConnMaxLifetime(60 * time.Second)
 
-	return &db{conn}
+	return &DB{conn}
 }
 
-// func (db *DB) Select()
-
-func (db *db) Get(dest interface{}, query string, args ...interface{}) error {
-	return db.sqlx.Get(dest, query, args...)
+// Session ...
+type Session struct {
+	// dbutil.DB インタフェースを満たした dbutil.db をコンポジットする。
+	db
+	context context.Context
 }
 
-func (db *db) Select(dest interface{}, query string, args ...interface{}) error {
-	return db.sqlx.Select(dest, query, args...)
+// NewSession ...
+func (db *DB) NewSession(ctx context.Context) *Session {
+	if db == nil {
+		panic(nil)
+	}
+
+	return &Session{
+		db:      db.DB,
+		context: ctx,
+	}
+}
+
+func (s *Session) check() {
+	if s == nil || s.db == nil {
+		panic(nil)
+	}
+}
+
+// Get ...
+func (s *Session) Get(dest interface{}, query string, args ...interface{}) error {
+	s.check()
+	return s.db.Get(dest, query, args...)
+}
+
+// Select ...
+func (s *Session) Select(dest interface{}, query string, args ...interface{}) error {
+	s.check()
+	return s.db.Select(dest, query, args...)
 }

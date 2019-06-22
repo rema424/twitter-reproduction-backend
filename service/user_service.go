@@ -1,14 +1,16 @@
 package service
 
 import (
+	"context"
+
 	"github.com/rema424/twitter-reproduction-backend/model"
 	"github.com/rema424/twitter-reproduction-backend/repository"
 )
 
 // UserService ...
 type UserService interface {
-	Get(userID int) (*model.User, error)
-	SelectAll() ([]*model.User, error)
+	Get(ctx context.Context, userID int) (*model.User, error)
+	SelectAll(ctx context.Context) ([]*model.User, error)
 }
 
 type userService struct {
@@ -21,11 +23,11 @@ func NewUserService(userRepository repository.UserRepository) UserService {
 }
 
 // Get ...
-func (s *userService) Get(userID int) (*model.User, error) {
-	return s.userRepository.Get(userID)
+func (s *userService) Get(ctx context.Context, userID int) (*model.User, error) {
+	return s.userRepository.Get(ctx, userID)
 }
 
 // SelectAll ...
-func (s *userService) SelectAll() ([]*model.User, error) {
-	return s.userRepository.SelectAll()
+func (s *userService) SelectAll(ctx context.Context) ([]*model.User, error) {
+	return s.userRepository.SelectAll(ctx)
 }

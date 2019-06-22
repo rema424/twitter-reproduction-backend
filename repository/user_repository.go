@@ -1,31 +1,33 @@
 package repository
 
 import (
+	"context"
+
 	"github.com/rema424/twitter-reproduction-backend/lib/dbutil"
 	"github.com/rema424/twitter-reproduction-backend/model"
 )
 
 // UserRepository ...
 type UserRepository interface {
-	Get(userID int) (*model.User, error)
-	SelectAll() ([]*model.User, error)
+	Get(ctx context.Context, userID int) (*model.User, error)
+	SelectAll(ctx context.Context) ([]*model.User, error)
 }
 
 type userRepository struct {
-	db dbutil.DB
+	db *dbutil.DB
 }
 
 // NewUserRepository ...
-func NewUserRepository(db dbutil.DB) UserRepository {
+func NewUserRepository(db *dbutil.DB) UserRepository {
 	return &userRepository{db}
 }
 
 // Get ...
-func (r *userRepository) Get(userID int) (*model.User, error) {
-	return getUser(r.db, userID)
+func (r *userRepository) Get(ctx context.Context, userID int) (*model.User, error) {
+	return getUser(ctx, r.db, userID)
 }
 
-func getUser(db dbutil.DB, userID int) (*model.User, error) {
+func getUser(ctx context.Context, db *dbutil.DB, userID int) (*model.User, error) {
 	q := `
 	SELECT
 		user_id,
@@ -44,18 +46,18 @@ func getUser(db dbutil.DB, userID int) (*model.User, error) {
 	WHERE user_id = ?;
 	`
 	var u model.User
-	if err := db.Get(&u, q, userID); err != nil {
+	if err := db.NewSession(ctx).Get(&u, q, userID); err != nil {
 		return nil, err
 	}
 	return &u, nil
 }
 
 // SelectAll ...
-func (r *userRepository) SelectAll() ([]*model.User, error) {
-	return selectAllUsers(r.db)
+func (r *userRepository) SelectAll(ctx context.Context) ([]*model.User, error) {
+	return selectAllUsers(ctx, r.db)
 }
 
-func selectAllUsers(db dbutil.DB) ([]*model.User, error) {
+func selectAllUsers(ctx context.Context, db *dbutil.DB) ([]*model.User, error) {
 	q := `
 	SELECT
 		user_id,
@@ -73,7 +75,7 @@ func selectAllUsers(db dbutil.DB) ([]*model.User, error) {
 	FROM users;
 	`
 	var us []*model.User
-	if err := db.Select(&us, q); err != nil {
+	if err := db.NewSession(ctx).Select(&us, q); err != nil {
 		return nil, err
 	}
 	return us, nil

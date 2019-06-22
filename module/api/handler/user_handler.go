@@ -1,12 +1,12 @@
 package handler
 
 import (
-	"context"
 	"database/sql"
 	"net/http"
 
+	"github.com/rema424/twitter-reproduction-backend/lib/echoutil"
+
 	"golang.org/x/sync/errgroup"
-	"google.golang.org/appengine"
 	"google.golang.org/appengine/log"
 
 	// "google.golang.org/appengine/memcache"
@@ -32,7 +32,7 @@ func NewUserHandler(userService service.UserService) UserHandler {
 }
 
 func (h *userHandler) Index(c echo.Context) error {
-	us, err := h.userService.SelectAll()
+	us, err := h.userService.SelectAll(echoutil.GetContext(c))
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return c.JSON(http.StatusOK, "データが見つかりませんでした。")
@@ -52,21 +52,21 @@ func (h *userHandler) Show(c echo.Context) error {
 	// 	return c.JSON(http.StatusOK, "予期せぬエラーが発生しました。")
 	// }
 
-	eg, ctx := errgroup.WithContext(getContext(c))
+	eg, ctx := errgroup.WithContext(echoutil.GetContext(c))
 	var u1, u2, u3 *model.User
 
 	eg.Go(func() (err error) {
-		u1, err = h.userService.Get(11)
+		u1, err = h.userService.Get(ctx, 11)
 		return
 	})
 
 	eg.Go(func() (err error) {
-		u2, err = h.userService.Get(2)
+		u2, err = h.userService.Get(ctx, 2)
 		return
 	})
 
 	eg.Go(func() (err error) {
-		u3, err = h.userService.Get(3)
+		u3, err = h.userService.Get(ctx, 3)
 		return
 	})
 
@@ -81,8 +81,4 @@ func (h *userHandler) Show(c echo.Context) error {
 	}
 
 	return c.JSONPretty(http.StatusOK, data, "  ")
-}
-
-func getContext(c echo.Context) context.Context {
-	return appengine.NewContext(c.Request())
 }
