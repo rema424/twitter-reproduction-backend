@@ -14,3 +14,5 @@
 vendor
 key
 .envrc
+node_modules
+dist

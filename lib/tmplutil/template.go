@@ -11,7 +11,7 @@ import (
 	"github.com/labstack/echo"
 )
 
-const tmplPath = "src/template/"
+const tmplPath = "dist/template/"
 
 // HTML ...
 func HTML(file string, data map[string]interface{}) (string, error) {
