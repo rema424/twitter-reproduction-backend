@@ -4,7 +4,7 @@ import (
 	"github.com/flosch/pongo2"
 )
 
-const tmplPath = "dist/template/"
+const tmplPath = "static/dist/template/"
 
 // HTML ...
 func HTML(file string, data map[string]interface{}) (string, error) {

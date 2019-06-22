@@ -21,8 +21,8 @@ const gulp = require("gulp"),
 
 // HTML
 function minifyHTML() {
-  const src = "src/**/*.html",
-    dest = "dist";
+  const src = "static/src/**/*.html",
+    dest = "static/dist";
 
   return gulp
     .src(src)
@@ -54,8 +54,8 @@ gulp.task(minifyHTML);
 
 // CSS
 function buildCSS() {
-  const src = "src/less/main.less",
-    dest = "dist/css";
+  const src = "static/src/less/main.less",
+    dest = "static/dist/css";
 
   return gulp
     .src(src)
@@ -82,8 +82,8 @@ gulp.task(buildCSS);
 
 // JavaScript
 function uglifyJS() {
-  const src = "src/js/**/*.js",
-    dest = "dist/js";
+  const src = "static/src/js/**/*.js",
+    dest = "static/dist/js";
 
   return gulp
     .src(src)
@@ -95,8 +95,8 @@ function uglifyJS() {
 gulp.task(uglifyJS);
 
 function concatJS() {
-  const src = ["dist/**/*.js", "!dist/js/scripts.js"],
-    dest = "dist/js",
+  const src = ["static/dist/**/*.js", "!dist/js/scripts.js"],
+    dest = "static/dist/js",
     concatScript = "scripts.js";
 
   return gulp
@@ -110,8 +110,8 @@ gulp.task(concatJS);
 
 // Images
 function imageminMain() {
-  const src = "src/img/**/*.{png,jpg,svg,gif}",
-    dest = "dist/img";
+  const src = "static/src/img/**/*.{png,jpg,svg,gif}",
+    dest = "static/dist/img";
 
   return gulp
     .src(src, {
@@ -137,8 +137,8 @@ gulp.task(imageminMain);
 
 // imagemin - WebP
 function imageminWebP() {
-  const src = "src/img/**/*.{jpg,png}",
-    dest = "dist/img";
+  const src = "static/src/img/**/*.{jpg,png}",
+    dest = "static/dist/img";
 
   return gulp
     .src(src, {
@@ -162,17 +162,17 @@ gulp.task(imageminWebP);
 function watch() {
   livereload.listen();
 
-  gulp.watch("src/**/*.html", minifyHTML);
-  gulp.watch("src/less/**/*.less", buildCSS);
-  gulp.watch("src/js/**/*.js", gulp.series(uglifyJS, concatJS));
-  gulp.watch("src/img/**/*.{png,jpg,svg,gif}", gulp.parallel(imageminMain, imageminWebP));
+  gulp.watch("static/src/**/*.html", minifyHTML);
+  gulp.watch("static/src/less/**/*.less", buildCSS);
+  gulp.watch("static/src/js/**/*.js", gulp.series(uglifyJS, concatJS));
+  gulp.watch("static/src/img/**/*.{png,jpg,svg,gif}", gulp.parallel(imageminMain, imageminWebP));
 }
 
 gulp.task("default", watch);
 
 // Clean
 function clean() {
-  return del(["dist"]);
+  return del(["static/dist"]);
 }
 
 gulp.task(clean);
