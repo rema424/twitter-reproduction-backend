@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	"github.com/rema424/twitter-reproduction-backend/lib/tmplutil"
+	"github.com/rema424/twitter-reproduction-backend/lib/echoutil"
 
 	"github.com/labstack/echo"
 )
@@ -37,7 +37,7 @@ func HelloHandler(c echo.Context) error {
 	// }
 	// return c.HTML(http.StatusOK, s)
 
-	return tmplutil.Render(c, "example.html", data)
+	return echoutil.Render(c, "example.html", data)
 }
 
 // ParrotHandler ...
