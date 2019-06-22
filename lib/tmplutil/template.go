@@ -1,13 +1,36 @@
-package templateutil
+package tmplutil
 
 import (
 	"errors"
 	"fmt"
 	"html/template"
 	"io"
+	"net/http"
 
+	"github.com/flosch/pongo2"
 	"github.com/labstack/echo"
 )
+
+const tmplPath = "src/template/"
+
+// HTML ...
+func HTML(file string, data map[string]interface{}) (string, error) {
+	return pongo2.Must(pongo2.FromCache(tmplPath + file)).Execute(data)
+}
+
+// HTMLBlob ...
+func HTMLBlob(file string, data map[string]interface{}) ([]byte, error) {
+	return pongo2.Must(pongo2.FromCache(tmplPath + file)).ExecuteBytes(data)
+}
+
+// Render ...
+func Render(c echo.Context, file string, data map[string]interface{}) error {
+	b, err := HTMLBlob(file, data)
+	if err != nil {
+		return c.NoContent(http.StatusInternalServerError)
+	}
+	return c.HTMLBlob(http.StatusOK, b)
+}
 
 // ITemplateRegistry ...
 type ITemplateRegistry interface {

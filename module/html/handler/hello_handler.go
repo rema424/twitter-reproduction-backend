@@ -3,6 +3,8 @@ package handler
 import (
 	"net/http"
 
+	"github.com/rema424/twitter-reproduction-backend/lib/tmplutil"
+
 	"github.com/labstack/echo"
 )
 
@@ -15,11 +17,27 @@ type Response struct {
 func HelloHandler(c echo.Context) error {
 	message := "Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!"
 
-	res := &Response{
-		Message: message,
-	}
+	// res := &Response{
+	// 	Message: message,
+	// }
 
-	return c.JSON(http.StatusOK, res)
+	// return c.JSON(http.StatusOK, res)
+
+	data := map[string]interface{}{"Data": message}
+
+	// b, err := tmplutil.HTMLBlob("example.html", data)
+	// if err != nil {
+	// 	return err
+	// }
+	// return c.HTMLBlob(http.StatusOK, b)
+
+	// s, err := tmplutil.HTML("example.html", data)
+	// if err != nil {
+	// 	return err
+	// }
+	// return c.HTML(http.StatusOK, s)
+
+	return tmplutil.Render(c, "example.html", data)
 }
 
 // ParrotHandler ...

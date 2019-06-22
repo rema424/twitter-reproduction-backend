@@ -10,6 +10,14 @@
   version = "v3.2.0"
 
 [[projects]]
+  digest = "1:434aab943cc1c082c9df36bd4b1f107d9ef4af930d2ce13d3f2eb008df9196f0"
+  name = "github.com/flosch/pongo2"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "5e81b817a0c48c1c57cdf1a9056cf76bdee02ca9"
+  version = "v3.0"
+
+[[projects]]
   digest = "1:ec6f9bf5e274c833c911923c9193867f3f18788c461f76f05f62bb1510e0ae65"
   name = "github.com/go-sql-driver/mysql"
   packages = ["."]
@@ -158,6 +166,7 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/flosch/pongo2",
     "github.com/go-sql-driver/mysql",
     "github.com/google/wire",
     "github.com/jmoiron/sqlx",
