@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"net/http"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/labstack/echo"
@@ -89,12 +90,60 @@ func stream() {
 	printGopher(c1)
 }
 
+// Visited ...
+type Visited struct {
+	mu      sync.Mutex
+	visited map[string]int
+}
+
+// VisitURL ...
+func (v *Visited) VisitURL(url string) int {
+	v.mu.Lock()
+	defer v.mu.Unlock()
+	count := v.visited[url]
+	count++
+	v.visited[url] = count
+	return count
+}
+
+func (v *Visited) crawl(url string) {
+	// time.Sleep(time.Duration(rand.Intn(4000)) * time.Millisecond)
+	time.Sleep(3000 * time.Millisecond)
+	v.VisitURL(url)
+	log.Println(fmt.Sprintf("url: %s %d", url, v.visited[url]))
+}
+
+func visit() {
+	v := &Visited{sync.Mutex{}, map[string]int{}}
+	// urls := []string{"a", "a", "a", "a", "a", "b", "b", "b", "c", "c", "c", "c", "c", "d", "d", "d", "d", "d", "d", "d", "d", "d"}
+	urls := []string{"a", "a", "a", "a", "a", "a", "a", "a"}
+	for _, url := range urls {
+		go v.crawl(url)
+	}
+	time.Sleep(4 * time.Second)
+	log.Println("passed")
+}
+
+func worker() {
+	n := 0
+	next := time.After(time.Second)
+	for {
+		select {
+		case <-next:
+			n++
+			log.Println(n)
+			next = time.After(time.Second)
+		}
+	}
+}
+
 // HelloHandler ...
 func HelloHandler(c echo.Context) error {
 	message := "Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!　Hello World!"
 
 	// select1()
-	stream()
+	// stream()
+	visit()
 
 	data := map[string]interface{}{"Message": message, "Number": 2364821976}
 	return renderer.HTML(c, http.StatusOK, "example.html", data)
