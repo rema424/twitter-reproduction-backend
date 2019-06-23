@@ -2,6 +2,7 @@ package handler
 
 import (
 	"fmt"
+	"image"
 	"log"
 	"math/rand"
 	"net/http"
@@ -124,17 +125,75 @@ func visit() {
 	log.Println("passed")
 }
 
-func worker() {
-	n := 0
-	next := time.After(time.Second)
+// RoverDriver ...
+type RoverDriver struct {
+	commandc chan command
+}
+
+// NewRoverDriver ...
+func NewRoverDriver() *RoverDriver {
+	r := &RoverDriver{
+		commandc: make(chan command),
+	}
+	go r.drive()
+	return r
+}
+
+type command int
+
+const (
+	right = command(0)
+	left  = command(1)
+)
+
+func (r *RoverDriver) drive() {
+	pos := image.Point{X: 0, Y: 0}
+	direction := image.Point{X: 1, Y: 0}
+	updateInterval := 250 * time.Millisecond
+	nextMove := time.After(updateInterval)
+	done := time.After(10 * time.Second)
 	for {
 		select {
-		case <-next:
-			n++
-			log.Println(n)
-			next = time.After(time.Second)
+		case c := <-r.commandc:
+			switch c {
+			case right:
+				direction = image.Point{
+					X: -direction.Y,
+					Y: direction.X,
+				}
+			case left:
+				direction = image.Point{
+					X: direction.Y,
+					Y: -direction.X,
+				}
+			}
+			log.Println(fmt.Sprintf("new direction %v", direction))
+		case <-nextMove:
+			pos = pos.Add(direction)
+			log.Println(fmt.Sprintf("moved to %v", pos))
+			nextMove = time.After(updateInterval)
+		case <-done:
+			return
 		}
 	}
+}
+
+func worker() {
+	// pos := image.Point{X: 10, Y: 10}
+	// direction := image.Point{X: 1, Y: 0}
+	// next := time.After(time.Second)
+	// done := time.After(10 * time.Second)
+	// for {
+	// 	select {
+	// 	case <-next:
+	// 		pos = pos.Add(direction)
+	// 		log.Println(fmt.Sprintf("current position is %v", pos))
+	// 		next = time.After(time.Second)
+	// 	case <-done:
+	// 		return
+	// 	}
+	// }
+	NewRoverDriver()
 }
 
 // HelloHandler ...
@@ -143,7 +202,8 @@ func HelloHandler(c echo.Context) error {
 
 	// select1()
 	// stream()
-	visit()
+	// visit()
+	go worker()
 
 	data := map[string]interface{}{"Message": message, "Number": 2364821976}
 	return renderer.HTML(c, http.StatusOK, "example.html", data)
