@@ -2,8 +2,10 @@ package dbutil
 
 import (
 	"context"
+	"database/sql"
 	"log"
 	"os"
+	"reflect"
 	"time"
 
 	// MySQL driver
@@ -73,12 +75,15 @@ func (s *Session) check() {
 // Get ...
 func (s *Session) Get(dest interface{}, query string, args ...interface{}) error {
 	s.check()
+
 	start := time.Now()
 	err := s.db.Get(dest, query, args...)
+
 	var rows int
 	if err == nil {
 		rows = 1
 	}
+
 	s.log(query, args, rows, start, err)
 	return err
 }
@@ -86,5 +91,50 @@ func (s *Session) Get(dest interface{}, query string, args ...interface{}) error
 // Select ...
 func (s *Session) Select(dest interface{}, query string, args ...interface{}) error {
 	s.check()
-	return s.db.Select(dest, query, args...)
+
+	start := time.Now()
+	err := s.db.Select(dest, query, args...)
+
+	s.log(query, args, countRows(dest), start, err)
+	return err
+}
+
+func countRows(i interface{}) int {
+	if i == nil {
+		return 0
+	}
+
+	// SQL Result
+	if res, ok := i.(sql.Result); ok {
+		if res == nil {
+			return 0
+		}
+		n, _ := res.RowsAffected()
+		return int(n)
+	}
+
+	// Switch Type
+	switch i.(type) {
+	case []byte, *[]byte, string, *string:
+		return 1
+	}
+
+	// Reflect
+	v := reflect.ValueOf(i)
+
+	// ポインタの処理
+	for v.Kind() == reflect.Ptr {
+		if v.IsNil() {
+			return 0
+		}
+		v = reflect.Indirect(v)
+	}
+
+	// 種別で
+	switch v.Kind() {
+	case reflect.Array, reflect.Slice:
+		return v.Len()
+	}
+
+	return 1
 }
