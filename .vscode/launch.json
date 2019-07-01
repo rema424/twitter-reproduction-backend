@@ -4,14 +4,15 @@
     {
       "name": "Connect to server",
       "type": "go",
-      "request": "attach",
+      // "request": "attach",
+      "request": "launch",
       "mode": "remote",
       "remotePath": "${workspaceFolder}",
       "port": 2345,
-      "host": "127.0.0.1"
-      // "program": "${workspaceFolder}",
-      // "env": {},
-      // "args": []
+      "host": "127.0.0.1",
+      "program": "${workspaceFolder}",
+      "env": {},
+      "args": []
     }
   ]
 }

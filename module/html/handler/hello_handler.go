@@ -203,7 +203,7 @@ func HelloHandler(c echo.Context) error {
 	// select1()
 	// stream()
 	// visit()
-	go worker()
+	// go worker()
 
 	data := map[string]interface{}{"Message": message, "Number": 2364821976}
 	return renderer.HTML(c, http.StatusOK, "example.html", data)
